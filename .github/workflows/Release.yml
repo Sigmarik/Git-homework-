@@ -1,0 +1,29 @@
+name: CI
+on:
+  push
+jobs:
+  Wind:
+    runs-on: windows-latest
+    steps:
+      - name: load
+        uses: actions/checkout@v1
+      - name: pyinst
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: testing
+        run: python testing.py
+  buildW:
+    needs: Wind
+    runs-on: windows-latest
+    steps:
+      - name: load
+        uses: actions/checkout@v1
+      - name: pyinst
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: pyinstaller setup
+        run: pip install pyinstaller
+      - name: building
+        run: pyinstaller useless.py --onefile
